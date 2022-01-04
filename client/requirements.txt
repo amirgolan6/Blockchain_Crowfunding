@@ -1,0 +1,7 @@
+web3==5.24.0
+pycryptodome==3.10.1
+tinyec
+py-solc
+flask
+
+flask_swagger_ui==3.25.0

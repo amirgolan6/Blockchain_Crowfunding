@@ -1,0 +1,41 @@
+version: "3.7"
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - 8000:8000
+    volumes:
+      - ./client/app/wallet/db:/app/wallet/db # this is to store the wallet db persistently
+    environment:
+      - WALLET_DB=/app/wallet/db/db
+      - FUND_MANAGER_HOST=server
+      - FUND_MANAGER_API_PORT=80
+      - ETH_HOST=https://eth.ap.idc.ac.il
+  server:
+    depends_on: 
+      - server_db
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    # ports:
+    #   - 8989:80 # this is for dev
+    environment:
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=server_db
+      - DB_PORT=5432
+      - ENVIRONMENT=DEV
+      - ETH_HOST=https://eth.ap.idc.ac.il
+  server_db:
+    image: postgres
+    volumes:
+      - .\server\db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    # ports: 
+    #   - 5430:5432 # This is for debugging only

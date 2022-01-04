@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- load CSS -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,400">
+  <link rel="stylesheet" href="/static/css/bootstrap.min.css">                                           
+  <link rel="stylesheet" href="/static/css/fontawesome-all.min.css">                                      
+  <link rel="stylesheet" href="/static/css/tooplate-style.css">                                           
+
+  <script>
+    var renderPage = true;
+
+    if (navigator.userAgent.indexOf('MSIE') !== -1
+      || navigator.appVersion.indexOf('Trident/') > 0) {
+      /* Microsoft Internet Explorer detected in. */
+      alert("Please view this in a modern browser such as Chrome or Microsoft Edge.");
+      renderPage = false;
+    }
+  </script>
+
+</head>
+
+<body>
+  <ul>
+  <li>
+  <a href="/static/wallet/list_accounts.html">Accounts List</a>
+  </li>
+  <li>
+  <a href="/static/wallet/create_account.html">Create Account</a>
+  </li>
+
+  <li>
+  <a href="/static/wallet/add_existing_account.html">Add Existing Account</a>
+  </li>
+
+  <li>
+  <a href="/static/wallet/delete_account.html">Delete Account</a>
+  </li>
+
+  <li>
+  <a href="/static/wallet/account_balance.html">Account Balance</a>
+  </li>
+
+  <li>
+  <a href="/static/wallet/lock_account.html">Lock Account</a>
+  </li>
+
+  <li>
+  <a href="/static/wallet/unlock_account.html">Unlock Account</a>
+  </li>
+
+  <li>
+  <a href="/static/wallet/get_account_private_key.html">Get Account Private Key</a>
+  </li>
+  </ul>
+
+
+
+  <ul>
+    <li>
+      <a href="/static/campaigns/create_campaign.html">Create New Crowdfunding Campaign</a>
+    </li>
+    <li>
+      <a href="/static/campaigns/list_campaigns.html">Crowdfunding Campaigns List</a>
+    </li>
+    <li>
+      <a href="/static/campaigns/donate_campaign.html">Donate to Existing Campaign</a>
+    </li>
+    <li>
+      <a href="/static/campaigns/get_campaign_info.html">Get Campaign Information</a>
+    </li>
+    <li>
+      <a href="/static/campaigns/produce_signature.html">Produce Signature For Withdrawal (Finished Successful Campaign)</a>
+    </li>
+    <li>
+      <a href="/static/campaigns/withdraw_balance.html">Withdraw Balance (Finished Successful Campaign)</a>
+    </li>
+    <li>
+      <a href="/static/campaigns/get_refund.html">Get Refund (Finished Unsuccessful Campaign)</a>
+    </li>
+  </ul>
+  <!-- Loader -->
+  <div id="loader-wrapper">
+    <div id="loader"></div>
+    <div class="loader-section section-left"></div>
+    <div class="loader-section section-right"></div>
+  </div>
+ 
+  
+  <!-- <head> 
+    <script src="jquery.js"></script> 
+    <script> 
+    $(function(){
+      $("#includedContent").load("create_account.html"); 
+    });
+    </script> 
+  </head> 
+
+  <body> 
+     <div id="includedContent"></div>
+  </body>  -->
+
+  <!-- load JS -->
+<!--   <script src="/static/js/script2.js"></script>
+ -->
+  <script src="/static/js/jquery-3.2.1.slim.min.js"></script>
+  <script>
+    $(function () {
+
+      if (renderPage) {
+        $('body').addClass('loaded');
+      }
+
+      $('.tm-current-year').text(new Date().getFullYear());  // Update year in copyright
+    });
+  </script>
+</body>
+</html>

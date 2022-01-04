@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<style>
+    * {
+        box-sizing: border-box;
+    }
+    
+    .column {
+        float: left;
+        width: 25%;
+        padding: 5px;
+    }
+    
+    /* Clearfix (clear floats) */
+    .row::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+    </style>
+
+<style>
+  table {
+    font-family: arial, sans-serif;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  td, th {
+    border: 1px solid #dddddd;
+    text-align: left;
+    padding: 8px;
+  }
+  
+  tr:nth-child(even) {
+    background-color: #dddddd;
+  }
+  form {
+    padding-bottom: 25px;
+  }
+  li {
+    padding-bottom: 12px;
+  }
+  #known_funds, #current_fund {
+    display: none;
+  }
+  .fund_buttons {
+    padding-top: 20px;
+    padding-bottom: 20px;
+  }
+  label[type=type1] {
+    padding-left: 5px;
+    padding-right: 5px;
+    min-width: 250px;
+  }
+  label[type=type2] {
+    width: 100%;
+    display: inline-block;
+  }
+  label[type=type3] {
+    width: 100%;
+    color: red;
+    font-size: larger;
+    font-weight: bold;
+    padding-bottom: 15px;
+    display: inline-block;
+  }
+  .button1 {
+    min-width: 150px;
+  }
+  </style>
+
+<style>
+  input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input[format_type=text_left], select {
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  input[type="datetime-local"] {
+    width: 20%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  select[type=right], select {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+  button[format_type=submit_create_fund] {
+    width: 100%;
+    background-color: #4CAF50;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  button[format_type=submit_create_fund]:hover {
+    background-color: #45a049;
+  }
+  
+  div {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+  }
+  div[format_type=boxed] {
+    padding: 30px;
+    border: black;
+    border-color: black;
+    border-width: 5px;
+    padding-top: 0;
+    border-style: double; 
+  }
+  form#wallet_operations, form#fund_operations, form#create_new_funds_params, div#fund_operations, #unknown_fund_ops {
+    display: none;
+  }
+  h2[type=OpHeader] {
+    padding-top: 0;
+    color: purple;
+  }
+  body {
+    max-width: 1200px;
+  }
+  </style>
+
+<body>
+
+<h1>Crowd Funding Platform and Manager</h1>
+
+  
+
+<h2>
+  <text>Wallet Operations
+  </text>
+  <button id = 'show_hide_wallet_operations_button' class=button1 type="button" onclick="showHideWallet();">Show</button>
+</h2>
+<p>
+  The wallet is used to store your private and public keys and allows you to easily perform operations using these keys.
+  You can create a new account which generates a new private key for you safely and associates a password with the key.
+  The private keys are stored locally on your computer encrypted with your password and can only be decrypted if the correct password is provided.
+  Keep your password safe or you will lose your accounts with any eth associated with them.
+  Private keys stored in the wallet will never leave your computer through the network.
+</p>
+  <form id='wallet_operations'>
+    <div format_type="boxed">
+      <h2 type='OpHeader'>Create New Account</h2>
+      <label type=type2>Password:</label>
+      <input format_type = "text_left" id="new_password" name="Password" placeholder="New Password">
+      <button class=button1 type="button" onclick="createAccount();">Create Account</button>
+      <label type=type2 id="new_created_account"></label>
+    </div>
+    <div format_type="boxed">
+      <h2 type='OpHeader'>Add Account</h2>
+      <label type=type2>Private Key:</label>
+      <input format_type = "text_left" id="add_account_private_key" name="Password" placeholder="Private Key">
+      <label type=type2>Password:</label>
+      <input format_type = "text_left" id="add_account_new_password" name="Password" placeholder="New Password">
+      <button class=button1 type="button" onclick="addAccount();">Add Account</button>
+      <label type=type2 id="new_created_added"></label>
+    </div>
+    <div format_type="boxed">
+      <h2 type='OpHeader'>Delete Account</h2>
+      <label type=type2>Account:</label>
+      <input format_type = "text_left" id="delete_account" name="Account" placeholder="Account to delete">
+      <button class=button1 type="button" onclick="deleteAccount();">Delete Account</button>
+      <label type=type2 id="account_deleted"></label>
+    </div>
+    <div format_type="boxed">
+      <h2 type='OpHeader'>Get Account Balance</h2>
+      <label type=type2>Account:</label>
+      <input format_type = "text_left" id="get_balance_account" name="Account" placeholder="Account">
+      <button class=button1 type="button" onclick="getAccountBalance();">Get Account Balance</button>
+      <label type=type2 id="account_balance"></label>
+    </div>
+    <div format_type="boxed">
+      <h2 type='OpHeader'>Lock Account</h2>
+      <label type=type2>Account:</label>
+      <input format_type = "text_left" id="lock_account" name="Account" placeholder="Account to lock">
+      <button class=button1 type="button" onclick="lockAccount();">Lock Account</button>
+      <label type=type2 id="account_locked"></label>
+    </div>
+    <div format_type="boxed">
+      <h2 type='OpHeader'>Unlock Account</h2>
+      <label type=type2>Account:</label>
+      <input format_type = "text_left" id="unlock_account" name="Account" placeholder="Account to unlock">
+      <label type=type2>Password:</label>
+      <input format_type = "text_left" id="unlock_account_password" name="Password" placeholder="Password">
+      <button class=button1 type="button" onclick="unlockAccount();">Unlock Account</button>
+      <label type=type2 id="account_unlocked"></label>
+    </div>
+    <div format_type="boxed">
+      <h2 type='OpHeader'>Get Private Key</h2>
+      <p>Careful! Keep your private keys safe and never share them with anyone</p>
+      <label type=type2>Account:</label>
+      <input format_type = "text_left" id="private_key_account" name="Account" placeholder="Account">
+      <button class=button1 type="button" onclick="getPrivateKey();">Get Private Key</button>
+      <label type=type2 id="private_key"></label>
+    </div>
+    
+</form>
+
+<h2>
+  <text>Known Accounts
+  </text>
+  <button id = 'show_hide_known_accounts_button' class=button1 type="button" onclick="showHideKnownAccounts();">Show</button>
+</h2>
+<p>
+  Accounts stored locally and ready to use. Locked accounts need to be unlocked with a password (decrypted) before they can be used for any operation.
+</p>
+<tt id='known_accounts'></tt>
+
+<h2>
+  <text>Crowd Fund Operations
+  </text>
+  <button id = 'show_hide_fund_operations_button' class=button1 type="button" onclick="showHideFundOperations();">Show</button>
+</h2>
+<p>
+  Crowd Funding is what you are here for. Using this interface you can create a new fund, or access information of existing fund raisers that are still active.
+  Creating a new fund requires three public keys of the authorized accounts that will be able to withdraw the funds when the fund period ends.
+  To withdraw funds, two out of three owners must provide their signatures. This interface allows to either provide two different accounts that are authorized for withdrawal,
+  or provide one account and the signed message from another account that will be provided as evidence that a second account approved the withdrawal.
+  Both approvers must approve the withdrawal to the same account which will recieve the funds.
+  To allow two authorizers to collaberate in approving the withdrawal, without having the private keys in the same place, there is an interface that allows one user to sign a transaction
+  and send the signed transaction safely to the second signer. The signed transaction do not reveal the private keys and don't need to be kept secret.
+  Then, the second signer can use the signed message and the interface to withdraw the funds securly.
+</p>
+<div id='fund_operations'>
+  <p>
+    <button type="button" onclick="openCloseCreateFund();">Create New Crowdfunding project</button>
+  </p>
+  <form id='create_new_funds_params'>
+    <label type=type3 id="server_availability" for="fname"></label>
+    <label type=type2 for="fname">Fund Name</label>
+    <input type="text" id="create_fund_fundname" name="Fund Name" placeholder="Fund Name...">
+
+    <label type=type2 for="lname">Goal</label>
+    <input format_type = "text_left" type="text" id="create_fund_goal" name="goal" placeholder="Goal">
+
+    <select type="right" id="create_fund_currency" name="currency">
+      <option value="wei">wei</option>
+      <option value="gwei">gwei</option>
+      <option value="finney">finney</option>
+      <option value="ether">ether</option>
+    </select>
+
+    <label type=type2 for="lname">Target Date</label>
+    <input type="datetime-local" id="create_fund_target_date" name="target_date">
+
+    <label type=type2 for="lname">Creating Account</label>
+    <input type="text" id="create_fund_creating_account" name="creating_account" placeholder="This Account will be charged gas for creating the fundraiser">
+    <label type=type2 for="lname">Owner 1</label>
+    <input type="text" id="create_fund_owner1" name="owner1" placeholder="0x...">
+    <label type=type2 for="lname">Owner 2</label>
+    <input type="text" id="create_fund_owner2" name="owner2" placeholder="0x...">
+    <label type=type2 for="lname">Owner 3</label>
+    <input type="text" id="create_fund_owner3" name="owner3" placeholder="0x...">
+
+    <label type=type2 for="lname">Description</label>
+    <input type="text" id="create_fund_description" name="description" placeholder="Can be text or html">
+  
+    <button type="button" format_type="submit_create_fund" onclick="submit_create_new_fund()">Submit</button>
+    <input type="text" id="create_fund_result" name="result" placeholder="">
+
+  </form>
+
+
+  <p class="button">
+    <button id = 'show_hide_known_funds' type="button" onclick="showHideKnownFunds();">List Known Crowd Funds</button>
+  </p>
+
+  <p id='known_funds'>Known Funds:
+  </p>
+  <div id='current_fund'>
+  </div>
+
+  <p class="button">
+    <button id = 'show_hide_unknown_fund_ops' type="button" onclick="showHideUnknownFundOps();">Show Unregistered Fund Operation</button>
+  </p>
+
+  <div id='unknown_fund_ops'></div>
+
+</div>
+
+
+<script src="script.js"></script>
+</body>
+</html>

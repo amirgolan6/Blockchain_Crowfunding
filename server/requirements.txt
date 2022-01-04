@@ -1,0 +1,6 @@
+flask
+sqlalchemy
+web3==5.24.0
+py-solc
+flask_swagger_ui==3.25.0
+psycopg2-binary
